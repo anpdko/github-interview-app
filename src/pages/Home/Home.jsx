@@ -8,7 +8,7 @@ const Home = () => {
       <div className={styles.page_center}>
          <h1 className={styles.title}>Резюме GitHub</h1>
          <p className={styles.discription}>Тестовое задание для создания резюме, используя аккаунт GitHub</p>
-         <InputApp placeholder='Введите имя пользователя GitHub'/>
+         <InputApp placeholder='Введите имя пользователя GitHub...'/>
          <Link to='/username'>
             <ButtonApp>Создать Резюме</ButtonApp> 
          </Link>
