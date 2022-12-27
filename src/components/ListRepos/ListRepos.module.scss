@@ -8,7 +8,7 @@ h2{
 }
 
 .list{
-   width: calc(100% - 80px);
+   width: calc(100% - 60px);
    list-style: none;
    margin: 0;
    padding: 0;
@@ -40,5 +40,17 @@ h2{
             color: #b6b6b6;
          }
       }
+   }
+}
+
+@media screen and (max-width: 720px) {
+   .list{
+      width: calc(100% - 40px);
+   }
+}
+
+@media screen and (max-width: 600px) {
+   a{
+      flex-direction: column;
    }
 }
