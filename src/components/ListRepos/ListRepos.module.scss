@@ -1,0 +1,44 @@
+
+$grey1: #b6b6b622; 
+$grey2: #b6b6b633; 
+
+h2{
+   font-size: 1.3rem;
+   margin: 0;
+}
+
+.list{
+   width: calc(100% - 80px);
+   list-style: none;
+   margin: 0;
+   padding: 0;
+
+   li{
+      background: $grey2;
+      margin-bottom: 2px;
+      transition: all 0.2s;
+      padding: 0;
+
+      &:nth-of-type(odd) {
+         background: $grey1;
+      }
+      &:hover{
+         transform: scale(1.02);
+         cursor: pointer;
+      }
+
+      a{
+         box-sizing: border-box;
+         display: flex;
+         align-items: center;
+         justify-content: space-between;
+         color: white;
+         padding: 12px 35px;
+         width: 100%;
+
+         .language{
+            color: #b6b6b6;
+         }
+      }
+   }
+}

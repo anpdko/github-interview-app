@@ -9,46 +9,14 @@ import{
    ChartSeriesLabels,
 } from "@progress/kendo-react-charts";
 
-const getRandom = (min, max) => {
-   return Math.floor(Math.random() * (max - min) + min);
-}
 
-const getRandomGRB = () => {
-   const red = getRandom(0, 200);
-   const green = getRandom(0, 200);
-   const blue = getRandom(0, 200);
-   return `rgba(${red},${green},${blue})`
-}
-
-const applicationsStatusThisMonth = [
-   {
-     status: "C++",
-     value: 14,
-     color: getRandomGRB(),
-   },
-   {
-     status: "C#",
-     value: 14,
-     color: getRandomGRB(),
-   },
-   {
-     status: "Python",
-     value: 40,
-     color: getRandomGRB(),
-   },
-   {
-     status: "JS",
-     value: 32,
-     color: getRandomGRB(),
-   },
-];
-
-const ChartApp = () => {
+const ChartApp = ({list}) => {
+   console.log(list)
    const renderTooltip = context => {
       const { category, value } = context.point || context;
       return (
         <div>
-          {category}: {value}%
+          {category}: {value}
         </div>
       );
    };
@@ -64,7 +32,7 @@ const ChartApp = () => {
                <ChartSeriesItem
                   className={styles.chart}
                   type="donut"
-                  data={applicationsStatusThisMonth}
+                  data={list}
                   categoryField="status"
                   field="value"
                >

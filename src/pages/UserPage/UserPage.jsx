@@ -1,10 +1,44 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import styles from './UserPage.module.scss'
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeftCircle } from 'react-bootstrap-icons'
-import { ChartApp } from '../../components';
+import { ChartApp, ListRepos } from '../../components';
+import { LoaderApp } from '../../components/UI'
+import axios from 'axios'
+import { getLanguagesData } from '../../services/languagesData'
 
 const UserPage = () => {
+   const [userData, setUserData] = useState(null)
+   const [reposData, setReposData] = useState(null)
+   const [languages, setLanguages] = useState(null)
+   const { username } = useParams()
+   const navigation = useNavigate()
+
+   const fetchData = useCallback(async() => {
+      try{
+         const resUserData = await axios.get(`https://api.github.com/users/${username}`);
+         setUserData(resUserData.data)
+
+         const resReposData = await axios.get(resUserData.data.repos_url)
+         setReposData(resReposData.data.sort((a, b) => -a.pushed_at.localeCompare(b.pushed_at)))
+         
+         setLanguages(getLanguagesData(resReposData.data))
+      }
+      catch(err){
+         navigation('/erroruser')
+      }
+   }, [username, navigation])
+
+
+   useEffect(()=>{
+      fetchData()
+   }, [fetchData])
+
+
+   if(userData === null) {
+     return <LoaderApp/>
+   }
+
    return (
       <div className={styles.user_page}>
          <nav className={styles.nav}>
@@ -14,34 +48,32 @@ const UserPage = () => {
             </Link>
          </nav>
          <div className={styles.page_center}>
-            <h1 className={styles.title}>Созданое резюме GitHub</h1>
+            <h1 className={styles.title}>
+               Созданое резюме GitHub
+            </h1>
             <div className={styles.table}>
-               <div className={styles.table_title}>Прядко Андрей</div>
-               <div className={styles.chart}><ChartApp/></div>
+               <div className={styles.table_title}>
+                  <img className={styles.avatar} src={userData.avatar_url} alt="avatar" />
+                  {userData.name}
+               </div>
+               <div className={styles.chart}><ChartApp list={languages}/></div>
 
                <div className={styles.th}>Username:</div>
-               <div className={styles.td}>anpdko</div>
+               <div className={styles.td}>{userData.login}</div>
 
-               <div className={styles.th}>Количество репозиториев:</div>
-               <div className={styles.td}>53</div>
+               <div className={styles.th}>Public repos:</div>
+               <div className={styles.td}>{userData.public_repos}</div>
 
-               <div className={styles.th}>Дата регистрации:</div>
-               <div className={styles.td}>12.22.2022</div>
+               <div className={styles.th}>Followers / Following:</div>
+               <div className={styles.td}>{userData.followers} / {userData.following}</div>
+
+               <div className={styles.th}>Created at:</div>
+               <div className={styles.td}>{userData.created_at.split('T')[0]}</div>
+
+               <div className={styles.th}>Location:</div>
+               <div className={styles.td}>{userData.location}</div>
             </div>
-
-            <h2>Последние репозитории</h2>
-            <ul className={styles.list}>
-               <li>1. github-interview-app</li>
-               <li>2. html_disciplines_mdpu</li>
-               <li>3. library_book_mdpu_server</li>
-               <li>4. github-interview-app</li>
-               <li>5. html_disciplines_mdpu</li>
-               <li>6. library_book_mdpu_server</li>
-               <li>7. github-interview-app</li>
-               <li>8. html_disciplines_mdpu</li>
-               <li>9. library_book_mdpu_server</li>
-               <li>10. library_book_mdpu_server</li>
-            </ul>
+            <ListRepos data={reposData}/>
          </div>
       </div>
    );
