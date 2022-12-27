@@ -1,0 +1,33 @@
+
+
+.btn{
+   background: #3772FF;
+   border: 2px solid #3772FF;
+
+   display: inline-flex;
+   justify-content: center;
+   align-items: center;
+   gap: 10px;
+
+   text-decoration: none;
+   padding: 15px 30px;
+   font-size: 0.9rem;
+   font-weight: 600;
+   text-transform: uppercase;
+   color: white;
+   border-radius: 5px;
+   outline: none;
+   cursor: pointer;
+   transition: all 0.3s;
+
+   &:hover {
+      box-shadow: 0 0 1px 3px #3772FF88;
+   }
+   &:active {
+      transform: scale(0.95);
+   }
+}
+
+.btn.icon{
+   padding: 15px 22px;
+}
