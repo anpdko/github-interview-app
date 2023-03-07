@@ -1,4 +1,4 @@
-# GitHub Interview App
+# GitHub Interview App Koitechs
 
 Link: https://dazzling-heliotrope-bc02a1.netlify.app/
 
